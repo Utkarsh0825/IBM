@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Sparkles, Target, CheckCircle, Users } from "lucide-react"
+import { ArrowRight, Sparkles, Target, CheckCircle, Users, MessageSquare } from "lucide-react"
 import { DEMO_MODE } from "@/lib/demo-data"
 
 export default function LandingPage() {
@@ -27,6 +27,13 @@ export default function LandingPage() {
             </Link>
             <Link href="#demo" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Demo
+            </Link>
+            <Link
+              href="/orchestrate"
+              className="text-sm text-primary font-medium hover:text-primary/80 transition-colors flex items-center gap-1.5"
+            >
+              <MessageSquare className="size-4" />
+              AI Career Agent
             </Link>
           </nav>
           <div className="flex items-center gap-3">

@@ -344,4 +344,41 @@ export const demoApi = {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     return DEMO_QUALITY_CHECKS[0]
   },
+
+  createApplicationFromJob: (userId: string, jobId: string) => {
+    const newApp = {
+      id: `app-${Date.now()}`,
+      user_id: userId,
+      job_posting_id: jobId,
+      resume_version_id: null,
+      cover_letter_version_id: null,
+      status: "draft",
+      readiness_score: null,
+      created_at: new Date().toISOString(),
+    }
+    demoState.applications.push(newApp)
+    return newApp
+  },
+
+  updateUserProfile: (userId: string, updates: any) => {
+    const user = DEMO_USERS.find((u) => u.id === userId)
+    if (user) {
+      user.profile = { ...user.profile, ...updates }
+      if (typeof window !== "undefined") {
+        const stored = sessionStorage.getItem("demo_user")
+        if (stored) {
+          const storedUser = JSON.parse(stored)
+          storedUser.profile = user.profile
+          sessionStorage.setItem("demo_user", JSON.stringify(storedUser))
+        }
+      }
+    }
+    return user
+  },
+
+  getApplicationsForReview: () => {
+    return demoState.applications.filter((a) => 
+      a.status === "ready_for_review" || a.status === "needs_revision"
+    )
+  },
 }

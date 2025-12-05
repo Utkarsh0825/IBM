@@ -145,3 +145,110 @@
     @apply bg-card/60 backdrop-blur-xl border border-border/50;
   }
 }
+
+/* Global Floating Chat Widget - Compact chat box only, no white space */
+#global-chat-root {
+  position: fixed !important;
+  bottom: 1rem !important;
+  right: 1rem !important;
+  z-index: 9999 !important;
+  width: 380px !important;
+  height: 600px !important;
+  max-width: calc(100vw - 2rem) !important;
+  max-height: calc(100vh - 2rem) !important;
+  background: transparent !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+}
+
+/* Remove all white backgrounds from the container - make everything transparent except chat */
+#global-chat-root,
+#global-chat-root > div,
+#global-chat-root > div > div,
+#global-chat-root > div > div > div {
+  background: transparent !important;
+}
+
+/* Hide any wrapper divs that create white space */
+#global-chat-root > div:not(:has(iframe)) {
+  background: transparent !important;
+  display: none !important;
+}
+
+/* Allow Watson widget to use its default floating style - only chat box visible */
+#global-chat-root > * {
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: auto !important;
+  background: transparent !important;
+}
+
+/* Style Watson chat widget - Only show the actual chat interface, no white blocks */
+#global-chat-root iframe,
+#global-chat-root [class*="chat"],
+#global-chat-root [class*="widget"],
+#global-chat-root [class*="wxo"],
+#global-chat-root [class*="orchestrate"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove all white backgrounds - only show chat interface */
+#global-chat-root div,
+#global-chat-root div[style*="background"],
+#global-chat-root > div,
+#global-chat-root > div > div,
+#global-chat-root > div > div > div {
+  background: transparent !important;
+}
+
+/* Hide any white container divs */
+#global-chat-root > div[style*="background-color"],
+#global-chat-root > div[style*="background"] {
+  background: transparent !important;
+  display: none !important;
+}
+
+/* Only show the actual chat widget, not container divs */
+#global-chat-root iframe {
+  display: block !important;
+  background: white !important;
+  border-radius: 0.75rem !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Hide any full-page white overlays that Watson might create */
+body > div[class*="wxo"]:not(#global-chat-root),
+body > div[class*="orchestrate"]:not(#global-chat-root),
+body > div[id*="wxo"]:not(#global-chat-root) {
+  display: none !important;
+}
+
+/* Ensure page background stays as theme background */
+html, body {
+  background: var(--background) !important;
+}
+
+/* Ensure page background stays as theme background */
+html, body {
+  background: var(--background) !important;
+}
+
+/* Ensure header is always on top but below chat widget */
+header {
+  z-index: 100 !important;
+  position: sticky !important;
+  top: 0 !important;
+}
+
+/* Suppress hydration warnings from browser extensions */
+body[data-suppress-hydration-warning] {
+  /* Allow browser extensions to modify DOM */
+}
+
+/* Hide Watson Orchestrate console errors visually */
+iframe[src*="watson-orchestrate"] {
+  border: none !important;
+}

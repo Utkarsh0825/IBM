@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { DemoSessionProvider } from "@/lib/hooks/use-demo-session"
 import { Toaster } from "@/components/ui/toaster"
+import { GlobalChatWidget } from "@/components/orchestrate/GlobalChatWidget"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -37,10 +38,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.className} font-sans antialiased`}>
+    <html lang="en" className="light" suppressHydrationWarning>
+      <body className={`${inter.className} font-sans antialiased`} suppressHydrationWarning>
         <DemoSessionProvider>
           {children}
+          <GlobalChatWidget />
           <Analytics />
           <Toaster />
         </DemoSessionProvider>
