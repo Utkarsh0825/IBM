@@ -49,7 +49,7 @@ export function GlobalChatWidget() {
     console.warn = suppressWatsonWarnings
 
     try {
-      // Set Watson Orchestrate configuration
+      // Set Watson Orchestrate configuration with file attachment support
       window.wxOConfiguration = {
         orchestrationID: "2d036da4e6924f42b26c13056cf322b4_539cd33a-6108-4a44-8ec6-ba807623a916",
         hostURL: "https://us-south.watson-orchestrate.cloud.ibm.com",
@@ -58,6 +58,10 @@ export function GlobalChatWidget() {
         crn: "crn:v1:bluemix:public:watsonx-orchestrate:us-south:a/2d036da4e6924f42b26c13056cf322b4:539cd33a-6108-4a44-8ec6-ba807623a916::",
         chatOptions: {
           agentId: "17dd8177-09e1-4ab7-bc74-4498d276e38d",
+          // Enable file attachments
+          enableFileUpload: true,
+          allowFileAttachments: true,
+          fileUploadEnabled: true,
         },
       }
 
@@ -95,7 +99,7 @@ export function GlobalChatWidget() {
         return
       }
 
-      // Create and inject the script
+      // Create and inject the script (matching provided script format)
       setTimeout(() => {
         const script = document.createElement("script")
         script.src = `${window.wxOConfiguration.hostURL}/wxochat/wxoLoader.js?embed=true`
@@ -106,8 +110,36 @@ export function GlobalChatWidget() {
 
           if (window.wxoLoader && !initCalledRef.current) {
             try {
+              // Initialize the chat widget
               window.wxoLoader.init()
               initCalledRef.current = true
+              
+              // Ensure file attachment UI is visible after initialization
+              setTimeout(() => {
+                const rootElement = document.getElementById("global-chat-root")
+                if (rootElement) {
+                  // Enable file input interactions
+                  const fileInputs = rootElement.querySelectorAll('input[type="file"]')
+                  fileInputs.forEach((input: any) => {
+                    if (input) {
+                      input.style.display = 'block'
+                      input.style.visibility = 'visible'
+                      input.style.pointerEvents = 'auto'
+                    }
+                  })
+                  
+                  // Enable attachment buttons/icons
+                  const attachmentButtons = rootElement.querySelectorAll('[class*="attach"], [class*="file"], [aria-label*="attach"], [aria-label*="file"]')
+                  attachmentButtons.forEach((btn: any) => {
+                    if (btn) {
+                      btn.style.display = 'block'
+                      btn.style.visibility = 'visible'
+                      btn.style.pointerEvents = 'auto'
+                      btn.disabled = false
+                    }
+                  })
+                }
+              }, 2000)
               
                   // Remove white blocks and style chat widget
                   setTimeout(() => {
@@ -188,23 +220,55 @@ export function GlobalChatWidget() {
                     }
                   }
                   
-                  // Remove white blocks and change message
+                  // Remove white blocks, change message, and enable file attachments
                   setTimeout(() => {
                     removeWhiteBlocks()
                     changeWelcomeMessage()
+                    enableFileAttachments()
                   }, 1000)
                   setTimeout(() => {
                     removeWhiteBlocks()
                     changeWelcomeMessage()
+                    enableFileAttachments()
                   }, 2000)
                   setTimeout(() => {
                     removeWhiteBlocks()
                     changeWelcomeMessage()
+                    enableFileAttachments()
                   }, 3000)
+                  
+                  // Function to ensure file attachments are enabled
+                  const enableFileAttachments = () => {
+                    // Enable file input interactions
+                    const fileInputs = rootElement.querySelectorAll('input[type="file"]')
+                    fileInputs.forEach((input: any) => {
+                      if (input) {
+                        input.style.display = 'block'
+                        input.style.visibility = 'visible'
+                        input.style.pointerEvents = 'auto'
+                        input.disabled = false
+                      }
+                    })
+                    
+                    // Enable attachment buttons/icons
+                    const attachmentButtons = rootElement.querySelectorAll(
+                      '[class*="attach"], [class*="file"], [aria-label*="attach"], [aria-label*="file"], button[aria-label*="attach"], button[aria-label*="file"]'
+                    )
+                    attachmentButtons.forEach((btn: any) => {
+                      if (btn) {
+                        btn.style.display = 'block'
+                        btn.style.visibility = 'visible'
+                        btn.style.pointerEvents = 'auto'
+                        btn.disabled = false
+                        btn.style.opacity = '1'
+                      }
+                    })
+                  }
                   
                   const observer = new MutationObserver(() => {
                     removeWhiteBlocks()
                     changeWelcomeMessage()
+                    enableFileAttachments()
                   })
                   
                   observer.observe(rootElement, {

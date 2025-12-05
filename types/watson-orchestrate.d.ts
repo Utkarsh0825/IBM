@@ -9,6 +9,9 @@ interface WatsonOrchestrateConfig {
   chatOptions: {
     agentId: string
     autoOpen?: boolean
+    enableFileUpload?: boolean
+    allowFileAttachments?: boolean
+    fileUploadEnabled?: boolean
     [key: string]: any
   }
   onAuthTokenNeeded?: (event: { authToken: string | null }) => void

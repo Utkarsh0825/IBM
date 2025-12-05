@@ -195,6 +195,26 @@
 }
 
 /* Remove all white backgrounds - only show chat interface */
+
+/* Ensure file attachment buttons and inputs are visible */
+#global-chat-root input[type="file"],
+#global-chat-root [class*="attach"],
+#global-chat-root [class*="file"],
+#global-chat-root [aria-label*="attach"],
+#global-chat-root [aria-label*="file"],
+#global-chat-root button[aria-label*="attach"],
+#global-chat-root button[aria-label*="file"] {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  z-index: 10000 !important;
+}
+
+/* Ensure file attachment UI elements are not hidden */
+#global-chat-root iframe {
+  pointer-events: auto !important;
+}
 #global-chat-root div,
 #global-chat-root div[style*="background"],
 #global-chat-root > div,
