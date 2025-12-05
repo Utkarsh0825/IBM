@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useDemoSession } from "@/lib/hooks/use-demo-session"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
@@ -11,7 +11,7 @@ import { Loader2, ArrowLeft, Sparkles } from "lucide-react"
 import { demoApi, DEMO_JOBS } from "@/lib/demo-data"
 import Link from "next/link"
 
-export default function NewApplicationPage() {
+function NewApplicationContent() {
   const { user, isLoading } = useDemoSession()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -149,6 +149,20 @@ export default function NewApplicationPage() {
         )}
       </div>
     </DashboardLayout>
+  )
+}
+
+export default function NewApplicationPage() {
+  return (
+    <Suspense fallback={
+      <DashboardLayout>
+        <div className="flex items-center justify-center h-screen">
+          <Loader2 className="size-8 animate-spin text-primary" />
+        </div>
+      </DashboardLayout>
+    }>
+      <NewApplicationContent />
+    </Suspense>
   )
 }
 
